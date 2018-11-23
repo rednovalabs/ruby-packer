@@ -821,7 +821,7 @@ class Compiler
       if gemspecs.size > 0
         raise "Multiple gemspecs detected" unless 1 == gemspecs.size
 
-        install_from_gemspec gemspec.first, gemfiles
+        install_from_gemspec gemspecs.first, gemfiles
       elsif gemfiles.size > 0
         raise 'Multiple Gemfiles detected' unless 1 == gemfiles.size
 
@@ -858,7 +858,7 @@ class Compiler
     @utils.cp_r(sources, @work_dir_inner, preserve: true)
 
     Dir["#{@work_dir_inner}/**/*.{a,dylib,so,dll,lib,bundle}"].each do |thisdl|
-      @utils.rm_f(thisdl) unless File.split(thisdl).include?('extensions')
+      @utils.rm_f(thisdl) unless thisdl.match?(%r{/ruby.*/extensions})
     end
   end
 
