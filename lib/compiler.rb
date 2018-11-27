@@ -378,7 +378,7 @@ class Compiler
     end
   end
 
-  def install_from_gemspec(gemspec, gemfiles)
+  def install_from_gemspec(gemspec)
     log "=> Installing source from gemspec #{File.expand_path gemspec}"
 
     @pre_prepare_dir = File.join(@options[:tmpdir], "__pre_prepare__")
@@ -388,22 +388,10 @@ class Compiler
     @utils.chdir(@pre_prepare_dir) do
       log "-> Detected a gemspec, trying to build the gem"
       @utils.rm_f("./*.gem")
-
-      if gemfiles.size > 0
-        @utils.run(@local_toolchain,
-                   @gem, "install", @the_bundler_gem,
-                         "--no-document")
-
-        @utils.run(@local_toolchain,
-                   @bundle, "install")
-        @utils.run(@local_toolchain,
-                   @bundle, "exec", @gem, "build", gemspec)
-      else
-        @utils.run(@local_toolchain, @gem, "build", gemspec)
-      end
+      @utils.run(@local_toolchain, @gem, "build", gemspec)
 
       gems = Dir["./*.gem"]
-      raise "failed to build gem #{gem}" unless 1 == gems.size
+      raise "failed to build gem #{gem}" unless gems.size == 1
 
       gem = gems.first
 
@@ -820,18 +808,18 @@ class Compiler
       log "=> gem env"
       @utils.run @local_toolchain, @gem, "env"
 
-      if gemspecs.size > 0
-        raise "Multiple gemspecs detected" unless 1 == gemspecs.size
-
-        install_from_gemspec gemspecs.first, gemfiles
-      elsif gemfiles.size > 0
-        raise 'Multiple Gemfiles detected' unless 1 == gemfiles.size
-
+      if gemspecs.size == 1
+        install_from_gemspec gemspecs.first
+      elsif gemspecs.size > 1
+        raise "Multiple gemspecs detected"
+      elsif gemfiles.size == 1
         install_from_gemfile gemfiles.first
-      elsif gems.size > 0
-        raise 'Multiple gem files detected' unless 1 == gems.size
-
+      elsif gemfiles.size > 1
+        raise 'Multiple Gemfiles detected'
+      elsif gems.size == 1
         install_from_gem gems.first
+      elsif gems.size > 1
+        raise 'Multiple gem files detected'
       else
         install_from_local
       end
@@ -860,7 +848,7 @@ class Compiler
     @utils.cp_r(sources, @work_dir_inner, preserve: true)
 
     Dir["#{@work_dir_inner}/**/*.{a,dylib,so,dll,lib,bundle}"].each do |thisdl|
-      @utils.rm_f(thisdl) unless thisdl.match?(%r{/ruby.*/extensions})
+      @utils.rm_f(thisdl) unless thisdl.match?(%r{/gems/.*/gems/})
     end
 
     ignore_files_from_build
