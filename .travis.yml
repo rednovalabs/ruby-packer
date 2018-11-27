@@ -1,25 +1,30 @@
 language: ruby
 cache: bundler
-
-rvm: 2.5.1
-
+rvm: 2.5
 os:
-  - linux
-  - osx
-
+- linux
+- osx
 sudo: enabled
-
 addons:
   apt:
     packages:
-      - squashfs-tools
-      - texinfo
-
+    - squashfs-tools
+    - texinfo
 before_install:
-  - ./.travis/osx_deps.sh
-
-before_script:
+  - "./.travis/osx_deps.sh"
   - mksquashfs -version
-
-script:
-  - rake test
+stages:
+  - name: test
+    if: type = pull_request
+  - name: deploy
+    if: tag IS present
+jobs:
+  include:
+    - stage: test
+      if: type = pull_request
+      script: rake test
+    - stage: deploy
+      script: "./.travis/deploy.sh"
+env:
+  global:
+    secure: CW3XBX9cDpk8hAGlh7CFZEjaQh/cgPLw5mbXjCwxaYwxZQ7B5reojMJ8+UyCrkeB8U5yEUTiiV1Y6gCH6Zovw/hgrqHYuklsb7zwGDutxW+gK4s9XMROjMFruVxoHFvWgKUNNAwPC+HOc4Sxjx9ZT6mGKqPkh51dvzSuGto/Df+3HxH7xKubPGpm7GcEShAdrSiH3aEQmNrOJTGf8ImATzm/LXOaGwwKutDvGJKECfw7AKYazdu80O1pDxro82sE1LE50Wpc49M4H2GF1BD89jDXesacFA+RLjYUpAQA/aF22L3SItAaG8nUDnyZ7EGeg01iRrosJa4qW8yIpfqP7H2wBL+lMc4oC9EOTnA63XEMp6D1ZcH/MGQxIbWIqLIBptgTYGB14GgqdMkR+Y2sJaKbZjMRH3g5RisPCcW9DpxvT8gtXuTN41pS8PJxiC3LcwAxKtFZyqwAFCC7G9ZTvbQjkyFtMovjQSW06JENJd1PfxsPKWYNjCo9W3PrFTKtg93cxo9loWWKfP5CC90NZKb5pdzHwFBed4gHOGgJDJXZ05lYnRy3ABM4qHFktW65Nf6NAxAPzb3atHsgkU1G2n+FEAB6k71O6ce9H3mhS3dXCQ2CNGkL2xmdV1k/TM9nw6B7i+pXbQ58ZKI7mI4xT6A5pkEf/tTwnFJLbHlTLLI=
