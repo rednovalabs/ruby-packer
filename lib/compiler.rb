@@ -848,7 +848,7 @@ class Compiler
     @utils.cp_r(sources, @work_dir_inner, preserve: true)
 
     Dir["#{@work_dir_inner}/**/*.{a,dylib,so,dll,lib,bundle}"].each do |thisdl|
-      next if File.fnmatch?("*/gems/*")
+      next if File.fnmatch?("*/gems/*", thisdl)
       @utils.rm_f(thisdl)
     end
 
