@@ -18,8 +18,7 @@ stages:
     if: type = pull_request
   - name: deploy
     if: tag IS present
-
-    jobs:
+jobs:
   include:
     - stage: test
       if: type = pull_request
