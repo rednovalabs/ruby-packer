@@ -5,14 +5,7 @@ os:
 - linux
 - osx
 sudo: enabled
-addons:
-  apt:
-    packages:
-    - squashfs-tools
-    - texinfo
-before_install:
-  - "./.travis/osx_deps.sh"
-  - mksquashfs -version
+before_install: "./.travis/install_deps.sh"
 stages:
   - name: test
     if: type = pull_request
