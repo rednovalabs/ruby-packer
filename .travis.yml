@@ -1,6 +1,6 @@
 language: ruby
 cache: bundler
-rvm: 2.5
+rvm: 2.5.1
 os:
 - linux
 - osx
@@ -18,12 +18,24 @@ stages:
     if: type = pull_request
   - name: deploy
     if: tag IS present
-jobs:
+
+    jobs:
   include:
     - stage: test
       if: type = pull_request
       script: rake test
+      os: osx
+    - stage: test
+      if: type = pull_request
+      script: rake test
+      os: linux
+      dist: xenial
     - stage: deploy
+      os: osx
+      script: "./.travis/deploy.sh"
+    - stage: deploy
+      os: linux
+      dist: xenial
       script: "./.travis/deploy.sh"
 env:
   global:
