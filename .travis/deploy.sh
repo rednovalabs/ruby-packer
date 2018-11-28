@@ -11,12 +11,12 @@ else
   curl -sL https://github.com/aktau/github-release/releases/download/v0.7.2/linux-amd64-github-release.tar.bz2 | tar -xjO > /tmp/github-release
   sudo update-ca-certificates
   OPENSSLDIR="/etc/ssl"
-  TEMP_DIR="$(sudo mktemp -d --tmpdir=/root .rubyc-build.XXXXXX)"
+  TEMP_DIR="$(mktemp -d --tmpdir=$HOME .rubyc-build.XXXXXX)"
 fi
 
 mksquashfs -version
 
-sudo ruby -Ilib bin/rubyc bin/rubyc \
+ruby -Ilib bin/rubyc bin/rubyc \
   --openssl-dir=${OPENSSLDIR} \
   --tmpdir=${TEMP_DIR} \
   --clean-tmpdir \

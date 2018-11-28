@@ -848,7 +848,8 @@ class Compiler
     @utils.cp_r(sources, @work_dir_inner, preserve: true)
 
     Dir["#{@work_dir_inner}/**/*.{a,dylib,so,dll,lib,bundle}"].each do |thisdl|
-      @utils.rm_f(thisdl) unless thisdl.match?(%r{/gems/.*/gems/})
+      next if File.fnmatch?("*/gems/*")
+      @utils.rm_f(thisdl)
     end
 
     ignore_files_from_build
