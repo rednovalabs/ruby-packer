@@ -34,7 +34,7 @@ gzip rubyc
 
 chmod +x /tmp/github-release
 GITHUB_TOKEN="${GH_TOKEN}" /tmp/github-release upload \
-    --user kke \
+    --user kontena \
     --repo ruby-packer \
     --tag $TRAVIS_TAG \
     --name "rubyc-${TRAVIS_TAG}-${TRAVIS_OS_NAME}-amd64.gz" \
