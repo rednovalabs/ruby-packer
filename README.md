@@ -1,10 +1,10 @@
 # Ruby Packer
 
+*Forked from* [pmq20/ruby-packer](https://github.com/pmq20/ruby-packer)
+
 *Packing your Ruby application into a single executable.*
 
-[![Status](https://ci.appveyor.com/api/projects/status/93i36eliiy6v3686/branch/master?svg=true)](https://ci.appveyor.com/project/pmq20/ruby-compiler/branch/master)
-[![Status](https://travis-ci.org/pmq20/ruby-compiler.svg?branch=master)](https://travis-ci.org/pmq20/ruby-compiler)
-[![GitHub version](https://badge.fury.io/gh/pmq20%2Fruby-compiler.svg)](https://badge.fury.io/gh/pmq20%2Fruby-compiler)
+[![Status](https://travis-ci.org/kontena/ruby-packer.svg?branch=master)](https://travis-ci.org/kontena/ruby-packer)
 
 ## Features
 
