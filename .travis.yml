@@ -8,24 +8,25 @@ sudo: enabled
 before_install: "./.travis/install_deps.sh"
 stages:
 - name: test
-  if: type = pull_request
 - name: deploy
   if: tag IS present
 jobs:
   include:
   - stage: test
-    if: type = pull_request
-    script: rake test
+    name: test osx
+    script: "./.travis/test.sh"
     os: osx
   - stage: test
-    if: type = pull_request
-    script: rake test
+    name: test linux
+    script: "./.travis/test.sh"
     os: linux
     dist: xenial
   - stage: deploy
+    name: deploy osx
     os: osx
     script: "./.travis/deploy.sh"
   - stage: deploy
+    name: deploy linux
     os: linux
     dist: xenial
     script: "./.travis/deploy.sh"
