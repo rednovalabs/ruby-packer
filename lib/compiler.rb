@@ -76,12 +76,11 @@ class Compiler
     @gem_package = nil
     @options     = options
     @utils       = Utils.new(options)
+    @gem_package = GemPackage.new(@entrance, @options, @utils) if @options[:gem]
 
     init_options
     init_entrance if entrance
     init_tmpdir
-
-    @gem_package = GemPackage.new(@entrance, @options, @utils) if @options[:gem]
 
     log "Ruby Compiler (rubyc) v#{::Compiler::VERSION}"
     if entrance
