@@ -297,7 +297,8 @@ class Compiler
     @utils.chdir(@pre_prepare_dir) do
       @utils.run(@local_toolchain,
                  @gem, "install", gem,
-                       "--no-document")
+                 "--install-dir", @gems_dir,
+                 "--no-document")
 
       if File.exist?(File.join(@gems_dir, "bin/#{@entrance}"))
         @memfs_entrance = "#{MEMFS}/lib/ruby/gems/#{self.class.ruby_api_version}/bin/#{@entrance}"
@@ -397,7 +398,8 @@ class Compiler
 
       @utils.run(@local_toolchain,
                  @gem, "install", gem,
-                      "--no-document")
+                 "--install-dir", @gems_dir,
+                 "--no-document")
 
       if File.exist?(File.join(@gems_dir, "bin/#{@entrance}"))
         @memfs_entrance = "#{MEMFS}/lib/ruby/gems/#{self.class.ruby_api_version}/bin/#{@entrance}"
