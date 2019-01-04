@@ -136,12 +136,6 @@ lcov*.info
 /enc/jis/props.h
 /enc/unicode/data
 
-# /enc/trans/
-/enc/trans/*.c
-/enc/trans/*.def
-/enc/trans/*.exp
-/enc/trans/*.lib
-/enc/trans/.time
 
 # /exe/
 /exe/ruby
