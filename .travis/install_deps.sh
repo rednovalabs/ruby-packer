@@ -9,5 +9,5 @@ if [ "$TRAVIS_OS_NAME" = "osx" ]; then
   brew install openssl
 else
   sudo apt-get update
-  sudo apt-get install -y -q openssl squashfs-tools curl install-info info
+  sudo apt-get install -y -q openssl squashfs-tools curl install-info info texinfo texi2html
 fi
