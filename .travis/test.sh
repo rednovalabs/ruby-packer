@@ -28,3 +28,5 @@ strip rubyc || true
 
 bundle exec rake test
 
+gzip rubyc
+mv rubyc rubyc-${TRAVIS_TAG}-${TRAVIS_OS_NAME}-amd64.gz
