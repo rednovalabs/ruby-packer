@@ -61,6 +61,9 @@ def headers.db_check(db, hdr)
   end
   result
 end
+# --------- [Enclose.io Hack start] ---------
+dblib = %w(gdbm_compat)
+# --------- [Enclose.io Hack end] ---------
 
 def have_declared_libvar(var, headers = nil, opt = "", &b)
   checking_for checking_message([*var].compact.join(' '), headers, opt) do
