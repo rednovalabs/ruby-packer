@@ -159,7 +159,7 @@ class Compiler
     @compile_env['ENCLOSE_IO_RUBYC_2ND_PASS'] = nil
 
     Dir.chdir(@build_pass_1) do
-      @utils.capture_run_io "phase1_configure" do
+      @utils.capture_run_io "phase1_configure", true do
         @utils.run(@compile_env,
                    @ruby_configure,
                    "--prefix", @ruby_install_1,

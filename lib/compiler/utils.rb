@@ -1,5 +1,5 @@
 # Copyright (c) 2017 Minqi Pan <pmq2001@gmail.com>
-# 
+#
 # This file is part of Ruby Compiler, distributed under the MIT License
 # For full terms see the included LICENSE file
 
@@ -17,7 +17,7 @@ class Compiler
       @capture_io = nil
     end
 
-    def capture_run_io(log_name)
+    def capture_run_io(log_name, output_on_success = false)
       log_file = File.join @options[:tmpdir], "#{log_name}.log"
 
       STDERR.puts "=> Saving output to #{log_file}"
@@ -26,6 +26,10 @@ class Compiler
         @capture_io = io
 
         yield
+      end
+      if output_on_success
+        puts "(output_on_success: true) - #{log_file}:"
+        IO.copy_stream log_file, $stdout
       end
     rescue Error
       IO.copy_stream log_file, $stdout
@@ -86,12 +90,12 @@ class Compiler
       Dir.chdir(path) { yield }
       STDERR.puts "-> cd #{Dir.pwd}" unless @options[:quiet]
     end
-    
+
     def cp(x, y)
       STDERR.puts "-> cp #{x.inspect} #{y.inspect}" unless @options[:quiet]
       FileUtils.cp(x, y)
     end
-    
+
     def cp_r(x, y, options = {})
       STDERR.puts "-> cp -r #{x.inspect} #{y.inspect}" unless @options[:quiet]
       FileUtils.cp_r(x, y, options)
@@ -116,12 +120,12 @@ class Compiler
       STDERR.puts "-> mkdir #{x}" unless @options[:quiet]
       FileUtils.mkdir(x)
     end
-    
+
     def mkdir_p(x)
       STDERR.puts "-> mkdir -p #{x}" unless @options[:quiet]
       FileUtils.mkdir_p(x)
     end
-    
+
     def remove_dynamic_libs(path)
       ['dll', 'dylib', 'so'].each do |extname|
         Dir["#{path}/**/*.#{extname}"].each do |x|
