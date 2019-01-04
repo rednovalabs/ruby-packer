@@ -130,49 +130,9 @@ lcov*.info
 /benchmark/fasta.output.*
 /benchmark/wc.input
 
-/enc/*.def
-/enc/*.exp
-/enc/*.lib
-/enc/jis/props.h
-/enc/unicode/data
-
-
 # /exe/
 /exe/ruby
 /exe/.time
-
-# /ext/
-/ext/extinit.c
-/ext/configure-ext.mk
-/ext/*/exts.mk
-
-# /ext/-test-/win32/dln/
-/ext/-test-/win32/dln/dlntest.dll
-/ext/-test-/win32/dln/dlntest.exp
-/ext/-test-/win32/dln/dlntest.lib
-
-# /ext/etc/
-/ext/etc/constdefs.h
-
-# /ext/fiddle/
-/ext/fiddle/libffi-*
-
-# /ext/rbconfig/
-/ext/rbconfig/sizeof/sizes.c
-/ext/rbconfig/sizeof/limits.c
-
-# /ext/ripper/
-/ext/ripper/eventids1.c
-/ext/ripper/eventids2table.c
-/ext/ripper/ripper.*
-/ext/ripper/ids1
-/ext/ripper/ids2
-
-# /ext/socket/
-/ext/socket/constants.h
-/ext/socket/constdefs.h
-/ext/socket/constdefs.c
-
 
 # /spec/bundler
 /.rspec_status
