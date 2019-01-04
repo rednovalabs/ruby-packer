@@ -33,7 +33,6 @@ class Compiler
       end
     rescue Error
       IO.copy_stream log_file, $stdout
-      raise
     ensure
       @capture_io = nil
     end
