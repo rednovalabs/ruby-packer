@@ -75,7 +75,7 @@ failed to run rubyc #{args.join " "}
   def test_ruby_version
     out, = rubyc "--ruby-version"
 
-    assert_match "2.5.1", out, "incorrect ruby version"
+    assert_match "2.6.0", out, "incorrect ruby version"
   end
 
   def test_unit_tests
