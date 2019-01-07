@@ -76,8 +76,6 @@ lcov*.info
 /coverage/assets
 /coverage/index.html
 /doc/capi
-/enc.mk
-/encdb.h
 /exts.mk
 /goruby
 /id.[ch]
