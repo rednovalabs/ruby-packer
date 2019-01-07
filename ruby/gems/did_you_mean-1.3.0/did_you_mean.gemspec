@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/yuki24/did_you_mean"
   spec.license       = "MIT"
 
-  spec.files         = Dir.glob('**/*')
+  spec.files         = Dir["lib/**/*.rb", "README.md", "LICENSE", "test/**/*"]
   spec.test_files    = spec.files.grep(%r{^(test)/})
   spec.require_paths = ["lib"]
 
