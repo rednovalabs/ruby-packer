@@ -297,6 +297,7 @@ class Compiler
       @utils.run(@local_toolchain,
                  @gem, "install", gem,
                  "--install-dir", @gems_dir,
+                 "--bindir", "#{@gems_dir}/bin",
                  "--no-document")
 
       if File.exist?(File.join(@gems_dir, "bin/#{@entrance}"))
@@ -398,6 +399,7 @@ class Compiler
       @utils.run(@local_toolchain,
                  @gem, "install", gem,
                  "--install-dir", @gems_dir,
+                 "--bindir", "#{@gems_dir}/bin",
                  "--no-document")
 
       if File.exist?(File.join(@gems_dir, "bin/#{@entrance}"))
