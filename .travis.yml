@@ -2,37 +2,30 @@ language: ruby
 cache: bundler
 sudo: enabled
 before_install:
-  - "./.travis/install_deps.sh"
-  - gem update --system
-  - gem install bundler
+- "./.travis/install_deps.sh"
+- gem update --system
+- gem install bundler
 stages:
 - name: test
-- name: deploy
-  if: tag IS present
 jobs:
   include:
   - stage: test
-    rvm: 2.5.1
+    rvm: 2.6.0
     name: test osx
     script: "./.travis/test.sh"
     os: osx
   - stage: test
     name: test linux
-    rvm: 2.5.1
+    rvm: 2.6.0
     script: "./.travis/test.sh"
     os: linux
     dist: xenial
-  - stage: deploy
-    name: deploy osx
-    rvm: 2.5.1
-    os: osx
-    script: "./.travis/deploy.sh"
-  - stage: deploy
-    name: deploy linux
-    rvm: 2.5.1
-    os: linux
-    dist: xenial
-    script: "./.travis/deploy.sh"
-env:
-  global:
-  - secure: W+7Ex9Jg2qGsMSiVBDV4pppPrQI8NdWRZK8EEAdUF7vuM2gON9jHOTNHPbHe1SEuJJuaSAiT8cbpNMc5nZizpF3udVwYTYRcce9iMNwxhybze2T6ZBtJBEVhS1ToS3TeiDZdUKzesXGKjK82MDH3vBXIpRfvinyddRKwuqb/UTUnGyAChCKbwaHOsjpy7CoEz6ORk0rx4JQSDZogLQEwknIvpec81WVTIzVryFbicHx8bvg1jjBas8FzVq4eX0f+yocx7U5TaQoGD1eHQds6LNVdYzBNMGJSHQGlcsobm5XgEGihe6vGPhUblF8EekEQiI6b/CVXUT5d8FmrP9vbl3EI6sDlLp0Gb/M2iNK7Yd/vCdC+m0c8sHEikl20ZbjET4ajroTeXU72jQXmd8Ir1OrpLKADnv7JNHbjvQM2E+aHENTyUtWQnQFyU/P+DyVlwbM+6vz5GJxV8YheDsqjFDZx1jT6JctaYdaVN85+5Q/WgKPHTootYb93WN/7ft/dASk2Sz+wjdXfc8pG2AYmEdHOyJI+ilGJq3AcTdumWYOxI8o0EK0X+hEZGL4jk+5EGkI14J2UjJJN6k5K84Lf2AiJTuXMAiqNI5L1KLqSUsY+C91eCmiNk4rrh8kI/TmXPOX6D/7/jD0x3hFk87+uDC5yM1y34jIxs/skTe39NHw=
+deploy:
+  provider: releases
+  skip_cleanup: true
+  file_glob: true
+  file: rubyc-*gz
+  on:
+    tags: true
+  api_key:
+    secure: n9Dch4VD7OHnAzNEji7BqCf6Ihv+RwHQGwhTacbuOG2hX6CWRfKOey6/N/RDIs1Bw0tkNWtAzb/NaNMjNeJwGDCsj7I/Bs8jlNIWyiNRp88cYFJcb2QTKfuMWpT1KRHXq/3XEyAhRUQ7LcGiQXxfwBwYKOKMIyZt2PooTr0D6fY/ThjvJmYePo5j4xP8F8Fst+ic0ASJkHVwDqrf5O+JkiXepmaOl8Y4AkOdK2Vhk2tvwFXZmNom6+ieM2z9KwzuaqUrCHFyd7OuLDHUGMjF96yy9vgk/lP/1mSkNneO/rCm8LmYWsNWul+M0hEBWrFshVFkhoHgU9I+zwn9x4wrJYEB2aRfTq0DNyqwvDWKNBlhP+VgpMXEHbyRGPtd9H4MHenpN6jm+3V2tEU3K0i2u5/vGtx11eg8pNcxWYgPjvmnZtYleOgFdu1SmkKZOCQffFemMJh/vEppPWknIEZBFK4GzFaEoPA3utXlQh20I37sRk3N/BQKUY5U7mEtc6lH4+LkeRl3H2UEM0fmo8LyE3fgKC5P1zVyXyI0IGlcMIXojr77RAnvjw4Ttjw+wrjRArAuw+QZfXCc+76qLiIykb+bRaJU0tLcMXfC0FAvZIE2uxOuFJ3xA6rynuP6MaGWhASalRvVd64mb1MmW6g7Km5My67196BzUPP2YutQM88=

@@ -159,17 +159,24 @@ class Compiler
     @compile_env['ENCLOSE_IO_RUBYC_2ND_PASS'] = nil
 
     Dir.chdir(@build_pass_1) do
-      @utils.run(@compile_env,
-                 @ruby_configure,
-                 "--prefix", @ruby_install_1,
-                 "--enable-bundled-libyaml",
-                 "--without-gmp",
-                 "--disable-dtrace",
-                 "--enable-debug-env",
-                 "--disable-install-rdoc")
+      @utils.capture_run_io "phase1_configure", true do
+        @utils.run(@compile_env,
+                   @ruby_configure,
+                   "--prefix", @ruby_install_1,
+                   "--enable-bundled-libyaml",
+                   "--without-gmp",
+                   "--disable-dtrace",
+                   "--enable-debug-env",
+                   "--disable-install-rdoc")
+      end
 
-      @utils.run(@compile_env, "make #{@options[:make_args]}")
-      @utils.run(@compile_env, "make install")
+      @utils.capture_run_io "phase1_make" do
+        @utils.run(@compile_env, "make #{@options[:make_args]}")
+      end
+
+      @utils.capture_run_io "phase1_make_install" do
+        @utils.run(@compile_env, "make install")
+      end
     end
   end
 
@@ -200,21 +207,26 @@ class Compiler
     Dir.chdir(@build_pass_2) do
       baseruby = File.join(@ruby_install_1_bin, "ruby")
 
-      @utils.run(@compile_env,
-                 @ruby_configure,
-                 "--prefix", @ruby_install_2,
-                 "--with-baseruby=#{baseruby}",
-                 "--enable-bundled-libyaml",
-                 "--without-gmp",
-                 "--disable-dtrace",
-                 "--enable-debug-env",
-                 "--disable-install-rdoc",
-                 "--with-static-linked-ext")
+      @utils.capture_run_io "phase2_configure" do
+        @utils.run(@compile_env,
+                   @ruby_configure,
+                   "--prefix", @ruby_install_2,
+                   "--with-baseruby=#{baseruby}",
+                   "--enable-bundled-libyaml",
+                   "--without-gmp",
+                   "--disable-dtrace",
+                   "--enable-debug-env",
+                   "--disable-install-rdoc",
+                   "--with-static-linked-ext")
+      end
 
       make_enclose_io_memfs
       make_enclose_io_vars
 
-      @utils.run(@compile_env, "make #{@options[:make_args]}")
+      @utils.capture_run_io "phase2_make" do
+        @utils.run(@compile_env, "make #{@options[:make_args]}")
+      end
+
       @utils.cp('ruby', @options[:output])
     end
   end
