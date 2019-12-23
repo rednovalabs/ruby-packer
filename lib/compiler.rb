@@ -345,6 +345,16 @@ class Compiler
     end
 
     @utils.chdir(@work_dir_local) do
+      # blow away the lock file and recompute it under the version of bundler
+      # running here, since that's what will ultimately get packaged.
+      # if we don't do this, we get nasty version mismatch errors when
+      # including the Gemfile
+      @utils.rm_f('Gemfile.lock')
+      require 'bundler'
+      require "bundler/cli"
+      require "bundler/cli/lock"
+      Bundler::CLI::Lock.new({"add-platform" => [], 'remove-platform' => []}).run
+
       # installing with --binstubs is duplicated below.  We should probably
       # flatten the nested if below and always install with --binstubs.
       @utils.run(@local_toolchain,
